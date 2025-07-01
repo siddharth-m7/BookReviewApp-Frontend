@@ -108,17 +108,40 @@ export default function BookDetails() {
       {/* Book Reviews */}
       <h2 className="text-2xl font-bold mb-4">Reviews</h2>
       {book.reviews?.length === 0 ? (
-        <p className="text-gray-500">No reviews yet.</p>
-      ) : (
-        book.reviews.map((r) => (
-          <ReviewCard
-            key={r._id}
-            review={r}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-          />
-        ))
-      )}
+  <p className="text-gray-500">No reviews yet.</p>
+) : (
+  book.reviews.map((r) => (
+    <div key={r._id} className="bg-white p-4 rounded shadow mb-4">
+      <div className="flex justify-between items-start">
+        <div>
+          <p className="text-lg font-semibold">
+            ⭐ {r.rating} / 5
+          </p>
+          <p className="text-gray-700">{r.comment}</p>
+          <p className="text-xs text-gray-500 mt-1">By {r.user.name}</p>
+        </div>
+
+        {/* Show only if current user is the review owner */}
+        {user?.id === r.user._id && (
+          <div className="text-sm space-x-2">
+            <button
+              onClick={() => handleEdit(r)}
+              className="text-blue-600 hover:underline"
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => handleDelete(r._id)}
+              className="text-red-600 hover:underline"
+            >
+              Delete
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  ))
+)}
     </div>
   );
 }

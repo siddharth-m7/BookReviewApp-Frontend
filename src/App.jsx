@@ -7,6 +7,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import UserDashboard from './pages/UserDashboard';
 import BookDetails from './pages/BookDetails';
 import Profile from './pages/Profile';
+import Home from './pages/Home'; // ✅ New import
 
 function App() {
   const { user } = useAuth();
@@ -15,14 +16,21 @@ function App() {
     <Router>
       <Navbar />
       <Routes>
-        <Route path="/" element={
+        {/* ✅ Public Home page */}
+        <Route path="/" element={<Home />} />
+
+        {/* ✅ Dashboards (admin/user) */}
+        <Route path="/dashboard" element={
           user?.role === 'admin' ? <AdminDashboard /> :
           user?.role === 'user' ? <UserDashboard /> :
           <Navigate to="/login" />
         } />
-        
-        <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
+
+        {/* ✅ Auth routes */}
+        <Route path="/login" element={!user ? <Login /> : <Navigate to="/dashboard" />} />
         <Route path="/register" element={<Register />} />
+
+        {/* ✅ Other private routes */}
         <Route path="/books/:id" element={<BookDetails />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>

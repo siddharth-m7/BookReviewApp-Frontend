@@ -1,32 +1,49 @@
-import { createContext, useState, useEffect, useContext } from "react";
-import { jwtDecode } from 'jwt-decode'; // ✅ Correct for ES modules
-
+import { createContext, useState, useEffect, useContext } from 'react';
+import {jwtDecode} from 'jwt-decode'; // ✅ for CommonJS/ES compatibility
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  const login = (token) => {
-    localStorage.setItem("token", token);
-    const decoded = jwtDecode(token);
-    setUser(decoded);
-  };
-
   const logout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem('token');
     setUser(null);
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
+  const login = (token) => {
+    try {
+      const decoded = jwtDecode(token);
+      if (decoded.exp * 1000 < Date.now()) {
+        logout();
+      } else {
+        localStorage.setItem('token', token);
+        setUser(decoded);
+      }
+    } catch (err) {
+      console.error('Invalid token:', err);
+      logout();
+    }
+  };
+
+  const checkStoredToken = () => {
+    const token = localStorage.getItem('token');
     if (token) {
       try {
-        setUser(jwtDecode(token));
+        const decoded = jwtDecode(token);
+        if (decoded.exp * 1000 < Date.now()) {
+          logout();
+        } else {
+          setUser(decoded);
+        }
       } catch {
         logout();
       }
     }
+  };
+
+  useEffect(() => {
+    checkStoredToken();
   }, []);
 
   return (
