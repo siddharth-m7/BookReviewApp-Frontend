@@ -8,6 +8,8 @@ import UserDashboard from './pages/UserDashboard';
 import BookDetails from './pages/BookDetails';
 import Profile from './pages/Profile';
 import Home from './pages/Home'; // ✅ New import
+import AboutPage from './pages/AboutPage'; // ✅ New import
+import Footer from './components/Footer';
 
 function App() {
   const { user } = useAuth();
@@ -18,6 +20,8 @@ function App() {
       <Routes>
         {/* ✅ Public Home page */}
         <Route path="/" element={<Home />} />
+        {/* ✅ About page */}
+        <Route path="/about" element={<AboutPage />} />
 
         {/* ✅ Dashboards (admin/user) */}
         <Route path="/dashboard" element={
@@ -34,6 +38,7 @@ function App() {
         <Route path="/books/:id" element={<BookDetails />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
+      <Footer />
     </Router>
   );
 }
