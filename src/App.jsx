@@ -37,6 +37,7 @@ function App() {
         {/* ✅ Other private routes */}
         <Route path="/books/:id" element={<BookDetails />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/ping" element={<div>Ping Page</div>} />
       </Routes>
       <Footer />
     </Router>
