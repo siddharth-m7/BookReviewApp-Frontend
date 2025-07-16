@@ -12,8 +12,5 @@
       "dest": "/index.html"
     }
   ],
-  "static": {
-    "trailingSlash": false
-  },
   "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
