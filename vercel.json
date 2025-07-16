@@ -14,5 +14,6 @@
   ],
   "static": {
     "trailingSlash": false
-  }
+  },
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
